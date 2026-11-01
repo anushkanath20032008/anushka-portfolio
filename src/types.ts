@@ -34,6 +34,7 @@ export interface EntryBody {
   gap?: string;
   system?: string;
   result?: string;
+  images?: { src: string; alt: string; caption?: string; pos?: string }[];
 }
 
 export interface Entry {

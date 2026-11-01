@@ -1,6 +1,6 @@
-import React from 'react';
-import { motion, MotionConfig } from 'motion/react';
-import { ExternalLink, Paperclip } from 'lucide-react';
+import React, { useState } from 'react';
+import { AnimatePresence, motion, MotionConfig } from 'motion/react';
+import { ExternalLink, Paperclip, X } from 'lucide-react';
 import type { Entry } from '../types';
 
 const STICKERS = ['#FBD9C6', '#CDE7DA', '#D9E2F8', '#F6D774', '#F2C6DE'];
@@ -31,6 +31,51 @@ const Label: React.FC<{ children: React.ReactNode }> = ({ children }) => (
     {children}
   </motion.h3>
 );
+
+const Gallery: React.FC<{ images: NonNullable<Entry['body']['images']> }> = ({ images }) => {
+  const [open, setOpen] = useState<number | null>(null);
+  const url = (src: string) => `${import.meta.env.BASE_URL}${src}`;
+  return (
+    <div className="my-6">
+      <Label>Take a look</Label>
+      <div className="grid gap-6 sm:grid-cols-2">
+        {images.map((im, i) => (
+          <motion.figure
+            key={im.src}
+            initial={{ opacity: 0, y: 30, rotate: 0 }}
+            whileInView={{ opacity: 1, y: 0, rotate: TILT[i + 1] }}
+            viewport={{ once: true }}
+            transition={{ type: 'spring', stiffness: 150, damping: 14, delay: i * 0.1 }}
+            whileHover={{ rotate: 0, y: -6, scale: 1.03 }}
+            className="tape relative cursor-zoom-in rounded-md border-2 border-[#1F2430] bg-[#FFFBF4] p-2 pb-1 paper-shadow"
+            onClick={() => setOpen(i)}
+          >
+            <img src={url(im.src)} alt={im.alt} loading="lazy" className="aspect-[16/10] w-full rounded-sm border border-[#1F2430]/30 object-cover" style={{ objectPosition: im.pos ?? 'center' }} />
+            {im.caption && <figcaption className="px-1 pt-1 font-hand text-xl leading-tight">{im.caption}</figcaption>}
+          </motion.figure>
+        ))}
+      </div>
+      <AnimatePresence>
+        {open !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setOpen(null)}
+            role="dialog"
+            aria-label={images[open].alt}
+            className="fixed inset-0 z-[80] grid cursor-zoom-out place-items-center bg-[#1F2430]/80 p-4"
+          >
+            <button aria-label="Close image" className="absolute right-4 top-4 rounded-full border-2 border-[#1F2430] bg-[#FFFBF4] p-1.5">
+              <X size={18} />
+            </button>
+            <motion.img initial={{ scale: 0.85 }} animate={{ scale: 1 }} src={url(images[open].src)} alt={images[open].alt} className="max-h-[88vh] max-w-[94vw] rounded-md border-2 border-[#1F2430] bg-white object-contain" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
 
 const GapSystemResult: React.FC<{ e: Entry }> = ({ e }) => {
   const { gap, system, result } = e.body;
@@ -133,6 +178,8 @@ export const EntryView: React.FC<{ entry: Entry }> = ({ entry: e }) => {
         )}
 
         <GapSystemResult e={e} />
+
+        {e.body.images && e.body.images.length > 0 && <Gallery images={e.body.images} />}
 
         {e.body.metrics && e.body.metrics.length > 0 && (
           <div className="my-4 flex flex-wrap gap-2.5">

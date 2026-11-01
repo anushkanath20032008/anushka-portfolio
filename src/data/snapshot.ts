@@ -117,7 +117,7 @@ export const SNAPSHOT: Content = {
       role: 'Founder & Builder',
       period: '2026',
       kind: 'build',
-      status: 'in development',
+      status: 'live',
       sort: 1,
       body: {
         summary:
@@ -125,8 +125,13 @@ export const SNAPSHOT: Content = {
         gap: 'Independent dance studios run on WhatsApp groups and notebooks, so fees, attendance and reminders slip.',
         system:
           'A scrapbook-style studio app: batches describe where a student dances, fee plans describe what each student owes, and families see classes, attendance and balance from one link.',
-        result: 'Work in progress. Waitlist and studio accounts are being built.',
-        tags: ['AI app', 'dance studios', 'in development'],
+        result: 'Live at choreostudio.live with a free first month for studios.',
+        links: [{ label: 'Open ChoreoStudio', url: 'https://choreostudio.live' }],
+        images: [
+          { src: 'img/choreo-hero.png', alt: 'ChoreoStudio landing page: Less chasing, more dancing', caption: 'The landing page', pos: 'top' },
+          { src: 'img/choreo-tall.png', alt: 'ChoreoStudio fee estimate calculator', caption: 'Fee calculator for studio owners', pos: '50% 24%' },
+        ],
+        tags: ['AI app', 'dance studios', 'live'],
       },
     },
     {
@@ -445,10 +450,10 @@ export const SNAPSHOT: Content = {
       label: 'ChoreoStudio',
       short: 'Choreo',
       kind: 'building',
-      statusText: 'Building: AI app for dance studios',
+      statusText: 'Live: fee tracking for dance studios',
       progress: 55,
       detail:
-        'An operations app for independent dance studios in India: students, batches, attendance, fee plans, a payments ledger and WhatsApp reminders. Currently in development.',
+        'An operations app for independent dance studios in India: students, batches, attendance, fee plans, a payments ledger and WhatsApp reminders. Live at choreostudio.live.',
     },
     {
       id: 'now-club',
