@@ -4,7 +4,6 @@ import { Accessibility, ArrowRight, BatteryFull, ChevronUp, Power, Wifi } from '
 import { useContent } from '../lib/content';
 import { useClock } from './hooks';
 import { PaintedAvatar } from './Paint';
-import { OrbitAvatar } from './OrbitAvatar';
 import { ThemedWallpaper } from './wallpaper';
 import BlurText from '../reactbits/BlurText';
 
@@ -95,8 +94,8 @@ export const LockScreen: React.FC<{ onUnlock: () => void }> = ({ onUnlock }) => 
                 }}
                 className="flex flex-col items-center"
               >
-                <OrbitAvatar size={120} />
-                <h1 className="-mt-2 font-hand text-5xl font-bold text-[#FFF6E6]">{content.profile.name}</h1>
+                <PaintedAvatar size={132} />
+                <h1 className="mt-3 font-hand text-5xl font-bold text-[#FFF6E6]">{content.profile.name}</h1>
                 <button
                   ref={btnRef}
                   type="submit"
