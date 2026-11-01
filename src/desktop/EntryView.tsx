@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AnimatePresence, motion, MotionConfig } from 'motion/react';
-import { ExternalLink, Paperclip, Pin, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ExternalLink, Paperclip, Pin, X } from 'lucide-react';
 import type { Entry } from '../types';
 
 const STICKERS = ['#FBD9C6', '#CDE7DA', '#D9E2F8', '#F6D774', '#F2C6DE'];
@@ -43,23 +43,31 @@ const Fixing: React.FC<{ i: number }> = ({ i }) => {
 const Gallery: React.FC<{ images: NonNullable<Entry['body']['images']> }> = ({ images }) => {
   const [open, setOpen] = useState<number | null>(null);
   const url = (src: string) => `${import.meta.env.BASE_URL}${src}`;
+  const masonry = images.length > 4;
+  const step = (d: number) => setOpen((o) => (o === null ? o : (o + d + images.length) % images.length));
   return (
     <div className="my-6">
-      <Label>Take a look</Label>
-      <div className={`grid gap-7 pt-3 ${images.length > 1 ? 'sm:grid-cols-2' : 'max-w-md'}`}>
+      <Label>{masonry ? 'The wall' : 'Take a look'}</Label>
+      <div className={masonry ? 'columns-2 gap-6 pt-3 md:columns-3' : `grid gap-7 pt-3 ${images.length > 1 ? 'sm:grid-cols-2' : 'max-w-md'}`}>
         {images.map((im, i) => (
           <motion.figure
             key={im.src}
             initial={{ opacity: 0, y: 30, rotate: 0 }}
-            whileInView={{ opacity: 1, y: 0, rotate: TILT[i + 1] }}
+            whileInView={{ opacity: 1, y: 0, rotate: TILT[(i + 1) % TILT.length] }}
             viewport={{ once: true }}
-            transition={{ type: 'spring', stiffness: 150, damping: 14, delay: i * 0.1 }}
-            whileHover={{ rotate: 0, y: -6, scale: 1.03 }}
-            className="relative cursor-zoom-in rounded-md border-2 border-[#1F2430] bg-[#FFFBF4] p-2 pb-1 paper-shadow"
+            transition={{ type: 'spring', stiffness: 150, damping: 14, delay: (i % 3) * 0.1 }}
+            whileHover={{ rotate: 0, y: -6, scale: 1.03, zIndex: 5 }}
+            className={`relative cursor-zoom-in rounded-md border-2 border-[#1F2430] bg-[#FFFBF4] p-2 pb-1 paper-shadow ${masonry ? 'mb-7 break-inside-avoid' : ''}`}
             onClick={() => setOpen(i)}
           >
             <Fixing i={i} />
-            <img src={url(im.src)} alt={im.alt} loading="lazy" className="aspect-[4/3] w-full rounded-sm border border-[#1F2430]/30 object-cover" style={{ objectPosition: im.pos ?? 'center' }} />
+            <img
+              src={url(im.src)}
+              alt={im.alt}
+              loading="lazy"
+              className={`w-full rounded-sm border border-[#1F2430]/30 ${masonry ? 'h-auto' : 'aspect-[4/3] object-cover'}`}
+              style={masonry ? undefined : { objectPosition: im.pos ?? 'center' }}
+            />
             {im.caption && <figcaption className="px-1 pt-1 font-hand text-xl leading-tight">{im.caption}</figcaption>}
           </motion.figure>
         ))}
@@ -71,14 +79,30 @@ const Gallery: React.FC<{ images: NonNullable<Entry['body']['images']> }> = ({ i
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setOpen(null)}
+            onKeyDown={(e) => {
+              if (e.key === 'ArrowRight') step(1);
+              if (e.key === 'ArrowLeft') step(-1);
+              if (e.key === 'Escape') setOpen(null);
+            }}
+            tabIndex={-1}
+            ref={(el) => el?.focus()}
             role="dialog"
             aria-label={images[open].alt}
-            className="fixed inset-0 z-[80] grid cursor-zoom-out place-items-center bg-[#1F2430]/80 p-4"
+            className="fixed inset-0 z-[80] grid cursor-zoom-out place-items-center bg-[#1F2430]/85 p-4 outline-none"
           >
             <button aria-label="Close image" className="absolute right-4 top-4 rounded-full border-2 border-[#1F2430] bg-[#FFFBF4] p-1.5">
               <X size={18} />
             </button>
-            <motion.img initial={{ scale: 0.85 }} animate={{ scale: 1 }} src={url(images[open].src)} alt={images[open].alt} className="max-h-[88vh] max-w-[94vw] rounded-md border-2 border-[#1F2430] bg-white object-contain" />
+            {images.length > 1 && (
+              <>
+                <button aria-label="Previous image" onClick={(e) => { e.stopPropagation(); step(-1); }} className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full border-2 border-[#1F2430] bg-[#FFFBF4] p-2"><ChevronLeft size={20} /></button>
+                <button aria-label="Next image" onClick={(e) => { e.stopPropagation(); step(1); }} className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full border-2 border-[#1F2430] bg-[#FFFBF4] p-2"><ChevronRight size={20} /></button>
+              </>
+            )}
+            <motion.figure key={open} initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="flex flex-col items-center">
+              <img src={url(images[open].src)} alt={images[open].alt} className="max-h-[84vh] max-w-[90vw] rounded-md border-2 border-[#1F2430] bg-white object-contain" />
+              {images[open].caption && <figcaption className="mt-2 font-hand text-2xl text-[#FFF6E6]">{images[open].caption}</figcaption>}
+            </motion.figure>
           </motion.div>
         )}
       </AnimatePresence>

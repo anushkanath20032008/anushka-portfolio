@@ -16,6 +16,7 @@ export const FOLDER_COLORS: Record<string, string> = {
   certifications: '#A7D3E8',
   extra: '#E5A6D8',
   skills: '#C3B4F0',
+  art: '#F7A8C8',
 };
 
 const stroke = { stroke: INK, strokeWidth: 2, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
@@ -101,6 +102,13 @@ const Glyph: React.FC<{ k: string }> = ({ k }) => {
       return (
         <g {...stroke}>
           <path d="M48 42 C28 30 30 14 40 14 C45 14 48 18 48 20 C48 18 51 14 56 14 C66 14 68 30 48 42 Z" fill="#F08AA0" />
+        </g>
+      );
+    case 'art':
+      return (
+        <g {...stroke}>
+          <path d="M48 12 C28 12 16 26 18 40 C20 52 32 52 36 48 C40 44 44 48 42 54 C40 62 48 66 56 62 C72 56 80 40 74 28 C68 16 58 12 48 12 Z" fill="#FFF6E6" transform="translate(0,-6) scale(.9) translate(5,0)" />
+          <circle cx="36" cy="26" r="4" fill="#E8552F" /><circle cx="50" cy="22" r="4" fill="#F6D774" /><circle cx="62" cy="30" r="4" fill="#8FD0B8" /><circle cx="30" cy="38" r="3.5" fill="#9FB6EE" />
         </g>
       );
     case 'skills':

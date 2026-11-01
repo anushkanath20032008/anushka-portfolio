@@ -22,6 +22,7 @@ export const SNAPSHOT: Content = {
     { slug: 'education', label: 'Education', iconKey: 'education', sort: 3, source: 'master-cv' },
     { slug: 'internships', label: 'Internships', iconKey: 'internships', sort: 4, source: 'master-cv' },
     { slug: 'academic-projects', label: 'Academic Projects', iconKey: 'academic', sort: 5, source: 'master-cv' },
+    { slug: 'art', label: 'Art', iconKey: 'art', sort: 6, source: 'added' },
     { slug: 'achievements', label: 'Achievements', iconKey: 'achievements', sort: 7, source: 'master-cv' },
     { slug: 'certifications', label: 'Certifications', iconKey: 'certifications', sort: 8, source: 'master-cv' },
     { slug: 'extra-curricular', label: 'Extra-curricular', iconKey: 'extra', sort: 9, source: 'master-cv' },
@@ -379,6 +380,31 @@ export const SNAPSHOT: Content = {
           'Samarthanam Trust for the Disabled (2020-21): recorded an audiobook for the visually impaired.',
           'Robinhood Army (2021): held classes for underprivileged children; food and clothing drives.',
         ],
+      },
+    },
+
+    // ---- Art
+    {
+      id: 'art-sketchbook',
+      folder: 'art',
+      slug: 'sketchbook',
+      title: 'Pen, paint & clay',
+      kind: 'art',
+      sort: 1,
+      body: {
+        summary: 'Ink, acrylic, watercolour and air-dry clay. Made for fun, mostly in the gaps between everything else.',
+        images: [
+          { src: 'img/art/birds.jpg', alt: 'Birds in ink', caption: 'Birds in ink' },
+          { src: 'img/art/mandala.jpg', alt: 'Pink pen mandala', caption: 'Pink pen mandala' },
+          { src: 'img/art/portrait-green.jpg', alt: 'Portrait in acrylic', caption: 'Portrait in acrylic' },
+          { src: 'img/art/taxi-bookmark.jpg', alt: 'Yellow taxi bookmark', caption: 'Yellow taxi bookmark' },
+          { src: 'img/art/still-life.jpg', alt: 'Still life with an 8-ball', caption: 'Still life with an 8-ball' },
+          { src: 'img/art/guitar.jpg', alt: 'Guitar duet', caption: 'Guitar duet' },
+          { src: 'img/art/clay-pair.jpg', alt: 'Clay bunny and octopus', caption: 'Clay bunny and octopus' },
+          { src: 'img/art/ink-face.jpg', alt: 'Ink portrait', caption: 'Ink portrait' },
+          { src: 'img/art/clay-cat.jpg', alt: 'Clay cat', caption: 'Clay cat' },
+        ],
+        tags: ['sketching', 'acrylic', 'watercolour', 'air-dry clay'],
       },
     },
 
