@@ -5,7 +5,7 @@ import type { Content } from '../types';
 export const SNAPSHOT: Content = {
   profile: {
     name: 'Anushka Nath',
-    headline: 'Serial blue-sky thinker, trying her hand at building.',
+    headline: 'Serial blue-sky thinker, trying my hand at building.',
     positioning: 'Learning a bit of everything and trusting the dots will connect. You only ever see them looking backwards.',
     summary:
       'Owned a ₹3 Cr audit & advisory portfolio across 65+ engagements, then started building: live apps, an AI app for dance studios, and a leadership role in the AI & Analytics Club. Drawn to structuring fast-scaling B2B businesses and leading 0-to-1 initiatives in tech.',
@@ -416,7 +416,14 @@ export const SNAPSHOT: Content = {
       title: 'Bharatanatyam',
       kind: 'interests',
       sort: 2,
-      body: { summary: 'Trained in classical dance for 6+ years.' },
+      body: {
+        summary: 'Trained in classical dance for 6+ years.',
+        images: [
+          { src: 'img/dance/stage-1.webp', alt: 'Bharatanatyam performance, standing pose on stage', caption: 'On stage' },
+          { src: 'img/dance/stage-2.webp', alt: 'Bharatanatyam performance at a dance festival', caption: 'Dance festival' },
+          { src: 'img/dance/stage-3.webp', alt: 'Bharatanatyam performance, mid-movement', caption: 'Mid-performance' },
+        ],
+      },
     },
     {
       id: 'gymnastics',

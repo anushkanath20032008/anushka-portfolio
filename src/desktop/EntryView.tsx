@@ -43,7 +43,7 @@ const Fixing: React.FC<{ i: number }> = ({ i }) => {
 const Gallery: React.FC<{ images: NonNullable<Entry['body']['images']> }> = ({ images }) => {
   const [open, setOpen] = useState<number | null>(null);
   const url = (src: string) => `${import.meta.env.BASE_URL}${src}`;
-  const masonry = images.length > 4;
+  const masonry = images.length > 2;
   const step = (d: number) => setOpen((o) => (o === null ? o : (o + d + images.length) % images.length));
   return (
     <div className="my-6">
