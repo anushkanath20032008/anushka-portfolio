@@ -51,40 +51,6 @@ export const SNAPSHOT: Content = {
           'Modelled executive dashboards from scratch, designed a quality management system to meet an international standard mandate, and rebuilt delivery workflows and capacity planning.',
         result: '₹3 Cr portfolio, 65+ engagements, 30% faster turnaround, 1.5x resource utilisation, ~26% lead conversion.',
         metrics: ['₹3 Cr portfolio', '65+ engagements', '30% faster turnaround', '1.5x utilisation', '~26% lead conversion'],
-        groups: [
-          {
-            title: 'Commercial & Growth',
-            bullets: [
-              'Evolved from project coordinator into customer lifecycle manager as the practice scaled 3x in engagement volume.',
-              'Owned execution of a ₹3 Cr audit & advisory portfolio across 65+ engagements spanning EMEA, APAC & the Americas.',
-              'Lifted lead conversion rate to ~26% by strengthening solutioning, stakeholder discussions, and commercial proposals.',
-              'Diagnosed profitability leaks in our Vulnerability Assessment service through data-informed root cause analysis.',
-              'Enabled real-time revenue, utilisation, and profitability tracking by modelling executive dashboards from scratch.',
-              'Mitigated the identified delivery-cost blind spot by evaluating project-effort-variance data across the service offering.',
-            ],
-          },
-          {
-            title: 'Operations & Scale',
-            bullets: [
-              'Sole SPOC across 5 stakeholder groups: partners, auditors, external consultants, contracting organisation, and clients.',
-              'Designed quality management system to meet an international standard mandate, replacing ad-hoc quality practices.',
-              'Cut project turnaround time by 30% by streamlining delivery workflows and execution governance.',
-              'Elevated resource utilisation 1.5x through data-driven allocation and capacity planning across 15+ auditors.',
-              'Unlocked upsell revenue by identifying account expansion opportunities and complementary service fits.',
-            ],
-          },
-          {
-            title: 'Stakeholder & Partner Management',
-            bullets: [
-              'Gained testimonials and client insight to support business growth by launching our first feedback program.',
-              'Enhanced sales effectiveness by retraining partner sales teams on our solution playbooks and service bundling.',
-              'Preserved a strategic global contractor relationship by managing executive stakeholders during a critical escalation.',
-              'Boosted adoption of an audit offering by 15% by shifting positioning from compliance requirements to business value.',
-              'Strengthened contractor governance through delivery oversight, feedback mechanisms, and review processes.',
-              "Facilitated a presales colleague's transition into the audit team by bridging their knowledge gap on the service delivery process.",
-            ],
-          },
-        ],
       },
     },
     {

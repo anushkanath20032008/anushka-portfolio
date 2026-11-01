@@ -98,9 +98,8 @@ export const SkimPage: React.FC = () => {
               {crowe.org} · {crowe.role}
             </p>
             <p className="text-xs text-[#1F2430]/65">{[crowe.period, crowe.location].filter(Boolean).join(' · ')}</p>
-            <ul className="mt-2 list-disc space-y-1 pl-5 text-sm">
-              {crowe.body.groups?.flatMap((g) => g.bullets.slice(0, 2)).map((b) => <li key={b}>{b}</li>)}
-            </ul>
+            {crowe.body.summary && <p className="mt-2 text-sm leading-relaxed">{crowe.body.summary}</p>}
+            {crowe.body.result && <p className="mt-1 text-sm font-semibold">{crowe.body.result}</p>}
             <p className="mt-2 text-xs">
               <Link to="/f/work-experience" className="no-print underline underline-offset-2">
                 Full experience on the desktop
