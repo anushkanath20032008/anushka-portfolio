@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowLeft, Download, Github, Instagram, Linkedin, Mail } from 'lucide-react';
 import { useContent } from '../lib/content';
+import { LearningCurve } from '../desktop/LearningCurve';
 
 const Section: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
   <section className="mt-6">
@@ -41,6 +42,7 @@ export const SkimPage: React.FC = () => {
           <p className="mt-2 text-xl font-semibold">{profile.headline}</p>
           <p className="mt-1 text-[#1F2430]/75">{profile.positioning}</p>
           <p className="mt-3 max-w-2xl text-sm leading-relaxed">{profile.summary}</p>
+          <LearningCurve className="no-print mt-4 max-w-xs" />
           <p className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-sm">
             <a href={`mailto:${profile.email}`} className="inline-flex items-center gap-1.5 underline underline-offset-2">
               <Mail size={14} /> {profile.email}

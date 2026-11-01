@@ -5,9 +5,8 @@ import type { Content } from '../types';
 export const SNAPSHOT: Content = {
   profile: {
     name: 'Anushka Nath',
-    headline: 'Curious about everything. Building a few things.',
-    positioning:
-      'Blue-skies thinker. I learn a little about everything (Bharatanatyam, audit dashboards, adult gymnastics, apps nobody asked for) and trust the dots to connect. You only ever see them looking backwards.',
+    headline: 'Serial blue-sky thinker. Building a few things.',
+    positioning: 'Learning a bit of everything and trusting the dots will connect. You only ever see them looking backwards.',
     summary:
       'Owned a ₹3 Cr audit & advisory portfolio across 65+ engagements, then started building: live apps, an AI app for dance studios, and a leadership role in the AI & Analytics Club. Drawn to structuring fast-scaling B2B businesses and leading 0-to-1 initiatives in tech.',
     email: 'nath.anushka26@gmail.com',
