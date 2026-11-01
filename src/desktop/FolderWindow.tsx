@@ -53,9 +53,6 @@ export const FolderWindow: React.FC = () => {
                 >
                   {folder.label}
                 </motion.h2>
-                <p className="mt-1 font-hand text-xl text-[#E8552F]">
-                  {entries.length} {entries.length === 1 ? 'thing' : 'things'} in here ↓
-                </p>
               </div>
               <ul className="px-2 pb-4">
                 {entries.map((e, i) => {
