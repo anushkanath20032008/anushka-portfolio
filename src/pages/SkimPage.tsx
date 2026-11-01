@@ -5,9 +5,32 @@ import { ArrowLeft, Download, Github, Instagram, Linkedin, Mail } from 'lucide-r
 import { useContent } from '../lib/content';
 import { LearningCurve } from '../desktop/LearningCurve';
 
+const PALETTE = ['#FBE58A', '#BFE5D0', '#F7C3D1', '#D9E2F8', '#FBD9C6'];
+const TILT = [-1.8, 1.4, -1, 1.9, -1.5];
+
+/** A sticky-note / tile card with tape or a pin, springing in and straightening on hover. */
+const Tile: React.FC<{ i?: number; tone?: string; pin?: boolean; className?: string; children: React.ReactNode }> = ({ i = 0, tone, pin, className = '', children }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 24, rotate: 0 }}
+    whileInView={{ opacity: 1, y: 0, rotate: TILT[i % TILT.length] }}
+    viewport={{ once: true }}
+    transition={{ type: 'spring', stiffness: 170, damping: 14, delay: (i % 3) * 0.08 }}
+    whileHover={{ rotate: 0, y: -4, scale: 1.02 }}
+    className={`skim-tile relative rounded-md border-2 border-[#1F2430] p-4 paper-shadow ${className}`}
+    style={{ background: tone ?? PALETTE[i % PALETTE.length] }}
+  >
+    {pin ? (
+      <span aria-hidden className="no-print absolute -top-2.5 left-1/2 h-4 w-4 -translate-x-1/2 rounded-full border-2 border-[#1F2430] bg-[#E8552F]" />
+    ) : (
+      <span aria-hidden className="no-print absolute -top-2.5 left-1/2 h-5 w-14 -translate-x-1/2 rotate-[-3deg] border border-[#1F2430]/15 bg-[#F6D774]/80" />
+    )}
+    {children}
+  </motion.div>
+);
+
 const Section: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
-  <section className="mt-6">
-    <h2 className="mb-3 border-b-2 border-[#1F2430] pb-1">
+  <section className="mt-8">
+    <h2 className="mb-4">
       <span className="marker-hl font-hand text-3xl font-bold leading-none">{title}</span>
     </h2>
     {children}
@@ -67,68 +90,75 @@ export const SkimPage: React.FC = () => {
         <Section title="Numbers">
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
             {content.metrics.map((m, i) => (
-              <motion.div
-                key={m.label}
-                initial={{ opacity: 0, y: 20, rotate: 0 }}
-                animate={{ opacity: 1, y: 0, rotate: [-1.5, 1.2, -0.8, 1.6][i % 4] }}
-                transition={{ type: 'spring', stiffness: 180, damping: 14, delay: 0.05 * i }}
-                whileHover={{ rotate: 0, y: -4, scale: 1.04 }}
-                className="rounded-xl border-2 border-[#1F2430] p-3 paper-shadow"
-                style={{ background: ['#FFFBF4', '#FBD9C6', '#CDE7DA', '#D9E2F8'][i % 4] }}
-              >
+              <Tile key={m.label} i={i + 2} tone={['#FFFBF4', '#FBD9C6', '#CDE7DA', '#D9E2F8'][i % 4]} pin={i % 2 === 0}>
                 <p className="font-hand text-4xl font-bold leading-none">{m.value}</p>
                 <p className="text-sm font-semibold">{m.label}</p>
                 {m.sublabel && <p className="text-xs text-[#1F2430]/65">{m.sublabel}</p>}
-              </motion.div>
+              </Tile>
             ))}
           </div>
         </Section>
 
         <Section title="Right now">
-          <ul className="space-y-1 text-sm">
-            {content.now.map((n) => (
-              <li key={n.id}>
-                <span className="font-semibold">{n.label}:</span> {n.statusText}
-              </li>
+          <div className="grid gap-5 sm:grid-cols-3">
+            {content.now.map((n, i) => (
+              <Tile key={n.id} i={i}>
+                <p className="font-mono text-[10px] uppercase tracking-wide text-[#1F2430]/60">{n.kind === 'building' ? 'building' : n.kind === 'role' ? 'new role' : 'now'}</p>
+                <p className="font-hand text-2xl font-bold leading-[0.95]">{n.label}</p>
+                <p className="mt-1 text-sm leading-snug">{n.statusText}</p>
+              </Tile>
             ))}
-          </ul>
+          </div>
         </Section>
 
         {crowe && (
           <Section title="Experience">
-            <p className="font-semibold">
-              {crowe.org} · {crowe.role}
-            </p>
-            <p className="text-xs text-[#1F2430]/65">{[crowe.period, crowe.location].filter(Boolean).join(' · ')}</p>
-            {crowe.body.summary && <p className="mt-2 text-sm leading-relaxed">{crowe.body.summary}</p>}
-            {crowe.body.result && <p className="mt-1 text-sm font-semibold">{crowe.body.result}</p>}
-            <p className="mt-2 text-xs">
-              <Link to="/f/work-experience" className="no-print underline underline-offset-2">
-                Full experience on the desktop
-              </Link>
-            </p>
+            <Tile pin tone="#FFFBF4">
+              <p className="font-display text-3xl leading-none">{crowe.org}</p>
+              <p className="mt-1 font-hand text-xl leading-tight">{[crowe.role, crowe.period, crowe.location].filter(Boolean).join(' · ')}</p>
+              {crowe.body.summary && <p className="mt-2 text-sm leading-relaxed">{crowe.body.summary}</p>}
+              {crowe.body.metrics && (
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {crowe.body.metrics.map((m, i) => (
+                    <span key={m} className="rounded-full border-2 border-[#1F2430] px-2.5 py-0.5 text-xs font-semibold" style={{ background: PALETTE[i % PALETTE.length] }}>
+                      {m}
+                    </span>
+                  ))}
+                </div>
+              )}
+              <p className="mt-3 text-xs">
+                <Link to="/f/work-experience" className="no-print underline underline-offset-2">
+                  Full experience on the desktop
+                </Link>
+              </p>
+            </Tile>
           </Section>
         )}
 
         <Section title="Builds">
-          <ul className="space-y-1 text-sm">
-            {builds.map((b) => (
-              <li key={b.id}>
-                <span className="font-semibold">{b.title}</span>
-                {b.status ? ` (${b.status})` : ''}: {b.body.summary}
-              </li>
+          <div className="grid gap-5 sm:grid-cols-2">
+            {builds.map((b, i) => (
+              <Tile key={b.id} i={i + 1} pin={i % 2 === 1}>
+                <div className="flex flex-wrap items-center gap-2">
+                  <p className="font-display text-2xl leading-none">{b.title}</p>
+                  {b.status && <span className="rounded-full border-2 border-[#1F2430] bg-[#FFFBF4] px-2 py-0 text-[10px] font-bold uppercase tracking-wide">{b.status}</span>}
+                </div>
+                <p className="mt-1.5 text-sm leading-snug">{b.body.summary}</p>
+              </Tile>
             ))}
-          </ul>
+          </div>
         </Section>
 
         <Section title="Education">
-          <ul className="space-y-1 text-sm">
-            {education.map((e) => (
-              <li key={e.id}>
-                <span className="font-semibold">{e.org}</span>, {e.title} ({e.period})
-              </li>
+          <div className="grid gap-5 sm:grid-cols-3">
+            {education.map((e, i) => (
+              <Tile key={e.id} i={i + 3} tone={['#D9E2F8', '#FBD9C6', '#CDE7DA'][i % 3]}>
+                <p className="font-display text-xl leading-tight">{e.org}</p>
+                <p className="text-sm leading-snug">{e.title}</p>
+                <p className="mt-1 font-hand text-lg leading-none text-[#1F2430]/70">{e.period}</p>
+              </Tile>
             ))}
-          </ul>
+          </div>
         </Section>
       </div>
     </div>

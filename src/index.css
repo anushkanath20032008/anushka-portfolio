@@ -75,6 +75,7 @@
 @media print {
   html, body, #root { height: auto; overflow: visible; background: #fff; }
   .no-print { display: none !important; }
+  .skim-tile { transform: none !important; opacity: 1 !important; box-shadow: none !important; break-inside: avoid; }
   .skim-root { position: static !important; overflow: visible !important; }
 }
 
