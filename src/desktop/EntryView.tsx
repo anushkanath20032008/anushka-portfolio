@@ -1,103 +1,193 @@
 import React from 'react';
-import { ExternalLink } from 'lucide-react';
+import { motion, MotionConfig } from 'motion/react';
+import { ExternalLink, Paperclip } from 'lucide-react';
 import type { Entry } from '../types';
 
-const Chip: React.FC<{ children: React.ReactNode; tone?: string }> = ({ children, tone = '#FFF6E6' }) => (
-  <span className="rounded-full border-2 border-[#1F2430] px-2.5 py-0.5 text-xs font-medium" style={{ background: tone }}>
+const STICKERS = ['#FBD9C6', '#CDE7DA', '#D9E2F8', '#F6D774', '#F2C6DE'];
+const TILT = [-2.5, 1.8, -1.2, 2.6, -2];
+
+const Sticker: React.FC<{ children: React.ReactNode; i?: number; tone?: string }> = ({ children, i = 0, tone }) => (
+  <motion.span
+    initial={{ opacity: 0, scale: 0.6, rotate: 0 }}
+    whileInView={{ opacity: 1, scale: 1, rotate: TILT[i % TILT.length] }}
+    viewport={{ once: true }}
+    transition={{ type: 'spring', stiffness: 380, damping: 16, delay: Math.min(i, 8) * 0.05 }}
+    whileHover={{ scale: 1.12, rotate: 0, y: -2 }}
+    className="inline-block cursor-default rounded-full border-2 border-[#1F2430] px-3 py-0.5 text-xs font-semibold"
+    style={{ background: tone ?? STICKERS[i % STICKERS.length] }}
+  >
     {children}
-  </span>
+  </motion.span>
+);
+
+const Label: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <motion.h3
+    initial={{ backgroundSize: '0% 100%' }}
+    whileInView={{ backgroundSize: '100% 100%' }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.6, ease: 'easeOut' }}
+    className="marker-hl mb-2 inline-block font-hand text-2xl font-bold leading-none"
+  >
+    {children}
+  </motion.h3>
 );
 
 const GapSystemResult: React.FC<{ e: Entry }> = ({ e }) => {
   const { gap, system, result } = e.body;
-  if (!gap && !system && !result) return null;
   const cards = [
-    { k: 'Gap I saw', v: gap, c: '#FBD9C6' },
-    { k: 'System I built', v: system, c: '#CDE7DA' },
-    { k: 'Result', v: result, c: '#D9E2F8' },
+    { k: 'The gap', v: gap, c: '#FBD9C6' },
+    { k: 'The system', v: system, c: '#CDE7DA' },
+    { k: 'The result', v: result, c: '#D9E2F8' },
   ].filter((x) => x.v);
+  if (!cards.length) return null;
   return (
-    <div className="my-4 grid gap-3 md:grid-cols-3">
-      {cards.map((c) => (
-        <div key={c.k} className="rounded-xl border-2 border-[#1F2430] p-3" style={{ background: c.c }}>
-          <p className="font-hand text-xl leading-none mb-1">{c.k}</p>
-          <p className="text-sm leading-relaxed">{c.v}</p>
-        </div>
+    <div className="my-6 grid gap-5 md:grid-cols-3">
+      {cards.map((c, i) => (
+        <motion.div
+          key={c.k}
+          initial={{ opacity: 0, y: 28, rotate: 0 }}
+          whileInView={{ opacity: 1, y: 0, rotate: TILT[i] }}
+          viewport={{ once: true }}
+          transition={{ type: 'spring', stiffness: 160, damping: 14, delay: i * 0.12 }}
+          whileHover={{ rotate: 0, y: -6, scale: 1.03 }}
+          className="tape relative rounded-lg border-2 border-[#1F2430] p-4 paper-shadow"
+          style={{ background: c.c }}
+        >
+          <p className="font-hand text-2xl font-bold leading-none">{c.k}</p>
+          <p className="mt-1.5 text-sm leading-relaxed">{c.v}</p>
+        </motion.div>
       ))}
     </div>
   );
 };
 
+const Timeline: React.FC<{ items: string[] }> = ({ items }) => (
+  <ol className="relative ml-1.5 border-l-2 border-dashed border-[#1F2430]/40 pl-5">
+    {items.map((b, i) => (
+      <motion.li
+        key={b}
+        initial={{ opacity: 0, x: -14 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, margin: '0px 0px -8% 0px' }}
+        transition={{ duration: 0.4, delay: Math.min(i, 5) * 0.05 }}
+        whileHover={{ x: 4 }}
+        className="relative pb-3 text-sm leading-relaxed last:pb-0"
+      >
+        <span
+          aria-hidden
+          className="absolute -left-[27px] top-1.5 h-3 w-3 rounded-full border-2 border-[#1F2430]"
+          style={{ background: STICKERS[i % STICKERS.length] }}
+        />
+        {b}
+      </motion.li>
+    ))}
+  </ol>
+);
+
 export const EntryView: React.FC<{ entry: Entry }> = ({ entry: e }) => {
   const meta = [e.org, e.role, e.period, e.location].filter(Boolean);
   return (
-    <article className="text-[#1F2430]">
-      <header className="mb-3">
-        <div className="flex flex-wrap items-center gap-2">
-          <h2 className="text-xl font-semibold leading-tight">{e.title}</h2>
-          {e.status && <Chip tone={e.status === 'live' ? '#CDE7DA' : '#F6D774'}>{e.status}</Chip>}
-        </div>
-        {meta.length > 0 && <p className="mt-1 text-sm text-[#1F2430]/70">{meta.join(' · ')}</p>}
-      </header>
+    <MotionConfig reducedMotion="user">
+      <article className="text-[#1F2430]">
+        <motion.header
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, ease: 'easeOut' }}
+          className="relative mb-5 rounded-lg border-2 border-[#1F2430] bg-[#FFFBF4] p-4 pl-5 paper-shadow"
+        >
+          <Paperclip aria-hidden size={26} className="absolute -top-3 left-4 -rotate-12 text-[#1F2430]/70" />
+          <div className="flex flex-wrap items-start gap-x-3 gap-y-1">
+            <h2 className="font-display text-4xl leading-[0.95] tracking-tight md:text-5xl">{e.title}</h2>
+            {e.status && (
+              <motion.span
+                animate={{ rotate: [-3, 3, -3] }}
+                transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
+                className="mt-1 rounded-full border-2 border-[#1F2430] px-2.5 py-0.5 text-xs font-bold uppercase tracking-wide"
+                style={{ background: e.status === 'live' ? '#CDE7DA' : '#F6D774' }}
+              >
+                {e.status}
+              </motion.span>
+            )}
+          </div>
+          {meta.length > 0 && (
+            <p className="mt-2 flex flex-wrap gap-x-2 font-hand text-xl leading-tight text-[#1F2430]/75">
+              {meta.map((m, i) => (
+                <span key={m}>
+                  {i > 0 && <span aria-hidden className="mr-2 text-[#E8552F]">✦</span>}
+                  {m}
+                </span>
+              ))}
+            </p>
+          )}
+        </motion.header>
 
-      {e.body.summary && <p className="leading-relaxed">{e.body.summary}</p>}
+        {e.body.summary && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="text-base leading-relaxed first-letter:float-left first-letter:mr-2 first-letter:font-display first-letter:text-6xl first-letter:leading-[0.8]"
+          >
+            {e.body.summary}
+          </motion.p>
+        )}
 
-      <GapSystemResult e={e} />
+        <GapSystemResult e={e} />
 
-      {e.body.metrics && e.body.metrics.length > 0 && (
-        <div className="my-3 flex flex-wrap gap-2">
-          {e.body.metrics.map((m) => (
-            <Chip key={m} tone="#F6D774">
-              {m}
-            </Chip>
-          ))}
-        </div>
-      )}
-
-      {e.body.groups?.map((g) => (
-        <section key={g.title} className="mt-4">
-          <h3 className="font-hand text-2xl leading-none mb-1">{g.title}</h3>
-          <ul className="list-disc pl-5 space-y-1 text-sm leading-relaxed">
-            {g.bullets.map((b) => (
-              <li key={b}>{b}</li>
+        {e.body.metrics && e.body.metrics.length > 0 && (
+          <div className="my-4 flex flex-wrap gap-2.5">
+            {e.body.metrics.map((m, i) => (
+              <Sticker key={m} i={i + 3}>
+                {m}
+              </Sticker>
             ))}
-          </ul>
-        </section>
-      ))}
+          </div>
+        )}
 
-      {e.body.bullets && (
-        <ul className="mt-3 list-disc pl-5 space-y-1 text-sm leading-relaxed">
-          {e.body.bullets.map((b) => (
-            <li key={b}>{b}</li>
-          ))}
-        </ul>
-      )}
+        {e.body.groups?.map((g) => (
+          <section key={g.title} className="mt-6">
+            <Label>{g.title}</Label>
+            <Timeline items={g.bullets} />
+          </section>
+        ))}
 
-      {e.body.links && (
-        <div className="mt-4 flex flex-wrap gap-2">
-          {e.body.links.map((l) => (
-            <a
-              key={l.url}
-              href={l.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-lg border-2 border-[#1F2430] bg-[#E8552F] px-3 py-1.5 text-sm font-semibold text-white paper-shadow hover:translate-x-px hover:translate-y-px"
-            >
-              {l.label} <ExternalLink size={14} aria-hidden />
-            </a>
-          ))}
-        </div>
-      )}
+        {e.body.bullets && (
+          <div className="mt-5">
+            <Timeline items={e.body.bullets} />
+          </div>
+        )}
 
-      {e.body.tags && (
-        <div className="mt-4 flex flex-wrap gap-1.5">
-          {e.body.tags.map((t) => (
-            <Chip key={t} tone="#EFE6D4">
-              {t}
-            </Chip>
-          ))}
-        </div>
-      )}
-    </article>
+        {e.body.links && (
+          <div className="mt-6 flex flex-wrap gap-2">
+            {e.body.links.map((l) => (
+              <motion.a
+                key={l.url}
+                href={l.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ y: -3, rotate: -1.5 }}
+                whileTap={{ y: 2, boxShadow: '0px 0px 0 #1F2430' }}
+                className="inline-flex items-center gap-1.5 rounded-lg border-2 border-[#1F2430] bg-[#E8552F] px-3.5 py-2 text-sm font-semibold text-white paper-shadow"
+              >
+                {l.label} <ExternalLink size={14} aria-hidden />
+              </motion.a>
+            ))}
+          </div>
+        )}
+
+        {e.body.tags && (
+          <div className="mt-6">
+            <Label>Tools &amp; themes</Label>
+            <div className="flex flex-wrap gap-2">
+              {e.body.tags.map((t, i) => (
+                <Sticker key={t} i={i}>
+                  {t}
+                </Sticker>
+              ))}
+            </div>
+          </div>
+        )}
+      </article>
+    </MotionConfig>
   );
 };
