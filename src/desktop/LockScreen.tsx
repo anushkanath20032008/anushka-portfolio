@@ -176,7 +176,7 @@ export const LockScreen: React.FC<{ onUnlock: () => void }> = ({ onUnlock }) => 
           <p className="mt-2 font-hand text-4xl font-semibold text-[#1F2430]">{date}</p>
         </div></div>
 
-        <div className="absolute bottom-7 left-7 z-10 hidden max-w-xs text-left md:block text-[#FFF6E6] [text-shadow:0_1px_6px_rgba(20,30,28,0.6)]">
+        <div className="absolute bottom-7 left-7 z-10 hidden max-w-xs text-left md:block rounded-xl bg-[#1F2430]/65 px-3 py-2 text-[#FFF6E6]">
           <p className="font-hand text-4xl font-bold leading-none">{content.profile.name}</p>
           <p className="mt-1 text-sm">{content.profile.positioning}</p>
         </div>
