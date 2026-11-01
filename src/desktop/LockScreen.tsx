@@ -19,15 +19,14 @@ const Tray: React.FC<{ tone?: string }> = ({ tone = '#FFF6E6' }) => (
 );
 
 /**
- * Painted take on the Windows flow: lock screen with a big clock, slide it up to reveal PIN sign-in,
- * a short "Welcome", then the desktop. The PIN is decorative so recruiters are never blocked.
+ * Painted take on the Windows flow: lock screen with a big clock, slide it up to reveal the sign-in,
+ * a short "Welcome", then the desktop.
  */
 export const LockScreen: React.FC<{ onUnlock: () => void }> = ({ onUnlock }) => {
   const { content } = useContent();
   const { time, date } = useClock();
   const [stage, setStage] = useState<Stage>('lock');
-  const [pin, setPin] = useState('');
-  const inputRef = useRef<HTMLInputElement>(null);
+  const btnRef = useRef<HTMLButtonElement>(null);
   const timer = useRef<number>();
   const done = useRef(false);
 
@@ -45,7 +44,7 @@ export const LockScreen: React.FC<{ onUnlock: () => void }> = ({ onUnlock }) => 
 
   useEffect(() => {
     if (stage !== 'signin') return;
-    const t = window.setTimeout(() => inputRef.current?.focus(), 500);
+    const t = window.setTimeout(() => btnRef.current?.focus(), 500);
     return () => window.clearTimeout(t);
   }, [stage]);
 
@@ -97,25 +96,14 @@ export const LockScreen: React.FC<{ onUnlock: () => void }> = ({ onUnlock }) => 
               >
                 <PaintedAvatar size={132} />
                 <h1 className="mt-3 font-hand text-5xl font-bold text-[#FFF6E6]">{content.profile.name}</h1>
-                <label className="mt-5 flex w-72 items-center rounded-lg border-2 border-[#1F2430] bg-[#FFF6E6] hand-box">
-                  <span className="sr-only">Your favourite number</span>
-                  <input
-                    ref={inputRef}
-                    type="password"
-                    inputMode="numeric"
-                    autoComplete="off"
-                    maxLength={6}
-                    value={pin}
-                    onChange={(e) => setPin(e.target.value.replace(/\D/g, ''))}
-                    placeholder="Enter your favourite number"
-                    tabIndex={stage === 'signin' ? 0 : -1}
-                    className="min-w-0 flex-1 bg-transparent px-3 py-2.5 text-center text-lg tracking-[0.3em] text-[#1F2430] outline-none placeholder:tracking-normal placeholder:text-[#1F2430]/50"
-                  />
-                  <button type="submit" aria-label="Sign in" tabIndex={stage === 'signin' ? 0 : -1} className="m-1 grid h-9 w-9 place-items-center rounded-md bg-[#E8552F] text-white hover:brightness-110">
-                    <ArrowRight size={18} />
-                  </button>
-                </label>
-                <p className="mt-3 text-sm text-[#FFF6E6]/85">Any number works. Or just press Enter.</p>
+                <button
+                  ref={btnRef}
+                  type="submit"
+                  tabIndex={stage === 'signin' ? 0 : -1}
+                  className="hand-box mt-5 flex items-center gap-2 border-2 border-[#1F2430] bg-[#E8552F] px-8 py-2.5 text-lg font-semibold text-white paper-shadow hover:brightness-110"
+                >
+                  Sign in <ArrowRight size={18} />
+                </button>
                 <BlurText text={content.profile.headline} animateBy="words" delay={90} className="mt-8 max-w-sm justify-center font-hand text-3xl text-[#F6D774]" />
               </motion.form>
             ) : (
