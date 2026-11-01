@@ -64,3 +64,5 @@
   .no-print { display: none !important; }
   .skim-root { position: static !important; overflow: visible !important; }
 }
+
+.scrollbar-none::-webkit-scrollbar { display: none; }

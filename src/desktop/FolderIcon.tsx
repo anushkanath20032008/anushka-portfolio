@@ -5,7 +5,7 @@ const INK = '#1F2430';
 const PAPER = '#FFF6E6';
 
 // Folder colour per icon key; keeps the desktop varied but in one warm family.
-const COLORS: Record<string, string> = {
+export const FOLDER_COLORS: Record<string, string> = {
   work: '#F4A27B',
   builds: '#8FD0B8',
   education: '#9FB6EE',
@@ -122,7 +122,7 @@ interface Props {
 }
 
 export const FolderIcon: React.FC<Props> = ({ iconKey, label, tilt = 0, onOpen, size = 96 }) => {
-  const color = COLORS[iconKey] ?? '#F4A27B';
+  const color = FOLDER_COLORS[iconKey] ?? '#F4A27B';
   return (
     <motion.button
       type="button"

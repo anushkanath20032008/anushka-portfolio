@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useContent } from '../lib/content';
 import { Window } from './Window';
 import { EntryView } from './EntryView';
+import { FolderTabs } from './FolderTabs';
 import { useIsDesktop } from './hooks';
 
 export const FolderWindow: React.FC = () => {
@@ -36,7 +37,9 @@ export const FolderWindow: React.FC = () => {
       fullScreen={!desktop}
       onBack={!desktop && selected && !single ? () => nav(`/f/${folder.slug}`) : undefined}
     >
-      <div className="flex h-full">
+      <div className="flex h-full flex-col">
+        <FolderTabs active={folder.slug} />
+        <div className="flex min-h-0 flex-1">
         {showList && (
           <nav aria-label={`${folder.label} entries`} className="scroll-thin w-full shrink-0 overflow-y-auto border-[#1F2430] bg-[#F9EFDD] md:w-72 md:border-r-2">
             <ul>
@@ -65,6 +68,7 @@ export const FolderWindow: React.FC = () => {
             </div>
           </div>
         )}
+        </div>
       </div>
     </Window>
   );
