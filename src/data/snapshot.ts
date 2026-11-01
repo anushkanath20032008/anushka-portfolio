@@ -43,6 +43,7 @@ export const SNAPSHOT: Content = {
       kind: 'work',
       sort: 1,
       body: {
+        images: [{ src: 'img/crowe-award.jpg', alt: 'Anushka receiving a thank-you plaque from the Crowe team', caption: 'Thank-you plaque from the Crowe team', pos: '30% 60%' }],
         summary:
           'Cybersecurity and assurance practice (VAPT, architecture and code review, digital forensics, SOC 1/2, ISAE 3000/3402). The practice scaled 3x in engagement volume while I moved from coordinating projects to managing the customer lifecycle.',
         gap: 'Ad-hoc quality practices, no real-time view of revenue, utilisation or profitability, and a profitability leak in Vulnerability Assessment.',

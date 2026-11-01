@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AnimatePresence, motion, MotionConfig } from 'motion/react';
-import { ExternalLink, Paperclip, X } from 'lucide-react';
+import { ExternalLink, Paperclip, Pin, X } from 'lucide-react';
 import type { Entry } from '../types';
 
 const STICKERS = ['#FBD9C6', '#CDE7DA', '#D9E2F8', '#F6D774', '#F2C6DE'];
@@ -32,13 +32,21 @@ const Label: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   </motion.h3>
 );
 
+const Fixing: React.FC<{ i: number }> = ({ i }) => {
+  const k = i % 3;
+  if (k === 0)
+    return <Pin aria-hidden size={30} fill="#E8552F" className="absolute -top-4 left-1/2 -translate-x-1/2 rotate-12 text-[#1F2430]" />;
+  if (k === 1) return <Paperclip aria-hidden size={34} className="absolute -top-4 right-6 -rotate-6 text-[#1F2430]/80" />;
+  return <span aria-hidden className="absolute -top-2.5 left-1/2 h-5 w-14 -translate-x-1/2 rotate-[-3deg] border border-[#1F2430]/15 bg-[#F6D774]/80" />;
+};
+
 const Gallery: React.FC<{ images: NonNullable<Entry['body']['images']> }> = ({ images }) => {
   const [open, setOpen] = useState<number | null>(null);
   const url = (src: string) => `${import.meta.env.BASE_URL}${src}`;
   return (
     <div className="my-6">
       <Label>Take a look</Label>
-      <div className="grid gap-6 sm:grid-cols-2">
+      <div className={`grid gap-7 pt-3 ${images.length > 1 ? 'sm:grid-cols-2' : 'max-w-md'}`}>
         {images.map((im, i) => (
           <motion.figure
             key={im.src}
@@ -47,10 +55,11 @@ const Gallery: React.FC<{ images: NonNullable<Entry['body']['images']> }> = ({ i
             viewport={{ once: true }}
             transition={{ type: 'spring', stiffness: 150, damping: 14, delay: i * 0.1 }}
             whileHover={{ rotate: 0, y: -6, scale: 1.03 }}
-            className="tape relative cursor-zoom-in rounded-md border-2 border-[#1F2430] bg-[#FFFBF4] p-2 pb-1 paper-shadow"
+            className="relative cursor-zoom-in rounded-md border-2 border-[#1F2430] bg-[#FFFBF4] p-2 pb-1 paper-shadow"
             onClick={() => setOpen(i)}
           >
-            <img src={url(im.src)} alt={im.alt} loading="lazy" className="aspect-[16/10] w-full rounded-sm border border-[#1F2430]/30 object-cover" style={{ objectPosition: im.pos ?? 'center' }} />
+            <Fixing i={i} />
+            <img src={url(im.src)} alt={im.alt} loading="lazy" className="aspect-[4/3] w-full rounded-sm border border-[#1F2430]/30 object-cover" style={{ objectPosition: im.pos ?? 'center' }} />
             {im.caption && <figcaption className="px-1 pt-1 font-hand text-xl leading-tight">{im.caption}</figcaption>}
           </motion.figure>
         ))}
