@@ -23,7 +23,6 @@ export const SNAPSHOT: Content = {
     { slug: 'education', label: 'Education', iconKey: 'education', sort: 3, source: 'master-cv' },
     { slug: 'internships', label: 'Internships', iconKey: 'internships', sort: 4, source: 'master-cv' },
     { slug: 'academic-projects', label: 'Academic Projects', iconKey: 'academic', sort: 5, source: 'master-cv' },
-    { slug: 'competitions', label: 'Competitions', iconKey: 'competitions', sort: 6, source: 'added' },
     { slug: 'achievements', label: 'Achievements', iconKey: 'achievements', sort: 7, source: 'master-cv' },
     { slug: 'certifications', label: 'Certifications', iconKey: 'certifications', sort: 8, source: 'master-cv' },
     { slug: 'extra-curricular', label: 'Extra-curricular', iconKey: 'extra', sort: 9, source: 'master-cv' },
@@ -317,28 +316,6 @@ export const SNAPSHOT: Content = {
         metrics: ['₹1 lakh+ revenue'],
         tags: ['e-commerce', 'dropshipping', 'college'],
       },
-    },
-
-    // ---- Competitions (titles only; details to be added)
-    {
-      id: 'startup-weekend',
-      folder: 'competitions',
-      slug: 'startup-weekend',
-      title: 'Startup Weekend (Aahar Labs)',
-      org: "Masters' Union",
-      kind: 'competition',
-      sort: 1,
-      body: { summary: 'Details coming soon.' },
-    },
-    {
-      id: 'casecomps',
-      folder: 'competitions',
-      slug: 'case-competitions',
-      title: 'Case competitions and decks',
-      org: "Masters' Union",
-      kind: 'competition',
-      sort: 2,
-      body: { summary: 'Decks from the Veritas, Equinox, Euphony and Prodigy rounds. Details coming soon.' },
     },
 
     // ---- Achievements
