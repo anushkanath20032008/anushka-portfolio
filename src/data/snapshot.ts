@@ -22,7 +22,6 @@ export const SNAPSHOT: Content = {
     { slug: 'education', label: 'Education', iconKey: 'education', sort: 3, source: 'master-cv' },
     { slug: 'internships', label: 'Internships', iconKey: 'internships', sort: 4, source: 'master-cv' },
     { slug: 'academic-projects', label: 'Academic Projects', iconKey: 'academic', sort: 5, source: 'master-cv' },
-    { slug: 'art', label: 'Art', iconKey: 'art', sort: 6, source: 'added' },
     { slug: 'achievements', label: 'Achievements', iconKey: 'achievements', sort: 7, source: 'master-cv' },
     { slug: 'certifications', label: 'Certifications', iconKey: 'certifications', sort: 8, source: 'master-cv' },
     { slug: 'extra-curricular', label: 'Extra-curricular', iconKey: 'extra', sort: 9, source: 'master-cv' },
@@ -383,12 +382,12 @@ export const SNAPSHOT: Content = {
       },
     },
 
-    // ---- Art
+    // ---- Interests: art & craft
     {
       id: 'art-sketchbook',
-      folder: 'art',
-      slug: 'sketchbook',
-      title: 'Pen, paint & clay',
+      folder: 'interests-skills',
+      slug: 'art',
+      title: 'Art & craft',
       kind: 'art',
       sort: 1,
       body: {
@@ -409,22 +408,24 @@ export const SNAPSHOT: Content = {
       },
     },
 
-    // ---- Interests & skills
+    // ---- Interests: dance and gymnastics
     {
-      id: 'interests',
+      id: 'bharatanatyam',
       folder: 'interests-skills',
-      slug: 'interests',
-      title: 'Interests',
+      slug: 'bharatanatyam',
+      title: 'Bharatanatyam',
       kind: 'interests',
-      sort: 1,
-      body: {
-        bullets: [
-          'Bharatanatyam: trained in classical dance for 6+ years.',
-          'Gymnastics: took it up as an adult, deliberately choosing to be a beginner again.',
-          'Art: sketching, acrylic painting. Craft: origami, 3D paper crafts, air-dry clay.',
-          'Reading.',
-        ],
-      },
+      sort: 2,
+      body: { summary: 'Trained in classical dance for 6+ years.' },
+    },
+    {
+      id: 'gymnastics',
+      folder: 'interests-skills',
+      slug: 'gymnastics',
+      title: 'Gymnastics',
+      kind: 'interests',
+      sort: 3,
+      body: { summary: 'Took it up as an adult, deliberately choosing to be a beginner again.' },
     },
   ],
 
