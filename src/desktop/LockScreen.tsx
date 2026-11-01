@@ -98,7 +98,7 @@ export const LockScreen: React.FC<{ onUnlock: () => void }> = ({ onUnlock }) => 
                 <PaintedAvatar size={132} />
                 <h1 className="mt-3 font-hand text-5xl font-bold text-[#FFF6E6]">{content.profile.name}</h1>
                 <label className="mt-5 flex w-72 items-center rounded-lg border-2 border-[#1F2430] bg-[#FFF6E6] hand-box">
-                  <span className="sr-only">PIN</span>
+                  <span className="sr-only">Your favourite number</span>
                   <input
                     ref={inputRef}
                     type="password"
@@ -107,15 +107,15 @@ export const LockScreen: React.FC<{ onUnlock: () => void }> = ({ onUnlock }) => 
                     maxLength={6}
                     value={pin}
                     onChange={(e) => setPin(e.target.value.replace(/\D/g, ''))}
-                    placeholder="PIN"
+                    placeholder="Enter your favourite number"
                     tabIndex={stage === 'signin' ? 0 : -1}
-                    className="min-w-0 flex-1 bg-transparent px-3 py-2.5 text-center text-lg tracking-[0.4em] text-[#1F2430] outline-none placeholder:tracking-normal placeholder:text-[#1F2430]/50"
+                    className="min-w-0 flex-1 bg-transparent px-3 py-2.5 text-center text-lg tracking-[0.3em] text-[#1F2430] outline-none placeholder:tracking-normal placeholder:text-[#1F2430]/50"
                   />
                   <button type="submit" aria-label="Sign in" tabIndex={stage === 'signin' ? 0 : -1} className="m-1 grid h-9 w-9 place-items-center rounded-md bg-[#E8552F] text-white hover:brightness-110">
                     <ArrowRight size={18} />
                   </button>
                 </label>
-                <p className="mt-3 text-sm text-[#FFF6E6]/85">Any PIN works. Or just press Enter.</p>
+                <p className="mt-3 text-sm text-[#FFF6E6]/85">Any number works. Or just press Enter.</p>
                 <BlurText text={content.profile.headline} animateBy="words" delay={90} className="mt-8 max-w-sm justify-center font-hand text-3xl text-[#F6D774]" />
               </motion.form>
             ) : (
