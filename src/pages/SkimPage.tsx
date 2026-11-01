@@ -1,11 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'motion/react';
 import { ArrowLeft, Download, Github, Instagram, Linkedin, Mail } from 'lucide-react';
 import { useContent } from '../lib/content';
 
 const Section: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
   <section className="mt-6">
-    <h2 className="font-hand text-3xl leading-none border-b-2 border-[#1F2430] pb-1 mb-3">{title}</h2>
+    <h2 className="mb-3 border-b-2 border-[#1F2430] pb-1">
+      <span className="marker-hl font-hand text-3xl font-bold leading-none">{title}</span>
+    </h2>
     {children}
   </section>
 );
@@ -34,7 +37,7 @@ export const SkimPage: React.FC = () => {
         </nav>
 
         <header className="mt-6">
-          <h1 className="font-hand text-6xl font-bold leading-[0.9]">{profile.name}</h1>
+          <h1 className="font-display text-7xl leading-[0.88] tracking-tight sm:text-8xl">{profile.name}</h1>
           <p className="mt-2 text-xl font-semibold">{profile.headline}</p>
           <p className="mt-1 text-[#1F2430]/75">{profile.positioning}</p>
           <p className="mt-3 max-w-2xl text-sm leading-relaxed">{profile.summary}</p>
@@ -61,12 +64,20 @@ export const SkimPage: React.FC = () => {
 
         <Section title="Numbers">
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-            {content.metrics.map((m) => (
-              <div key={m.label} className="rounded-xl border-2 border-[#1F2430] bg-[#FFFBF4] p-3">
+            {content.metrics.map((m, i) => (
+              <motion.div
+                key={m.label}
+                initial={{ opacity: 0, y: 20, rotate: 0 }}
+                animate={{ opacity: 1, y: 0, rotate: [-1.5, 1.2, -0.8, 1.6][i % 4] }}
+                transition={{ type: 'spring', stiffness: 180, damping: 14, delay: 0.05 * i }}
+                whileHover={{ rotate: 0, y: -4, scale: 1.04 }}
+                className="rounded-xl border-2 border-[#1F2430] p-3 paper-shadow"
+                style={{ background: ['#FFFBF4', '#FBD9C6', '#CDE7DA', '#D9E2F8'][i % 4] }}
+              >
                 <p className="font-hand text-4xl font-bold leading-none">{m.value}</p>
                 <p className="text-sm font-semibold">{m.label}</p>
                 {m.sublabel && <p className="text-xs text-[#1F2430]/65">{m.sublabel}</p>}
-              </div>
+              </motion.div>
             ))}
           </div>
         </Section>

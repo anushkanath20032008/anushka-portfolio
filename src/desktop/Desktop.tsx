@@ -90,10 +90,10 @@ export const Desktop: React.FC<{ unlocked: boolean; onLock: () => void }> = ({ u
       </div>
 
       {/* Greeting + positioning */}
-      <section data-greet aria-label="Introduction" className="absolute right-6 top-8 z-10 hidden w-[min(420px,34vw)] bg-[#FFF6E6]/85 p-5 text-[#1F2430] backdrop-blur-sm hand-box lg:block xl:right-16">
-        <p className="font-mono text-xs text-[#1F2430]/60">hi, I'm</p>
-        <h1 className="font-hand text-7xl font-bold leading-[0.9]">{content.profile.name}</h1>
-        <BlurText text={content.profile.headline} animateBy="words" delay={90} className="mt-3 text-xl font-semibold" />
+      <section data-greet aria-label="Introduction" className="tape absolute right-6 top-10 z-10 hidden w-[min(440px,34vw)] bg-[#FFF6E6]/90 p-5 text-[#1F2430] backdrop-blur-sm hand-box lg:block xl:right-16">
+        <p className="font-hand text-2xl text-[#E8552F]">hi, I'm ↓</p>
+        <h1 className="font-display text-8xl leading-[0.85] tracking-tight">{content.profile.name}</h1>
+        <BlurText text={content.profile.headline} animateBy="words" delay={90} className="mt-3 font-hand text-3xl font-bold leading-tight" />
         <p className="mt-2 text-sm text-[#1F2430]/75">{content.profile.positioning}</p>
         <div className="mt-4 flex gap-2">
           <Link to="/skim" className="rounded-lg border-2 border-[#1F2430] bg-[#E8552F] px-3 py-1.5 text-sm font-semibold text-white paper-shadow">
