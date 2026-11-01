@@ -121,7 +121,7 @@ const DawnWallpaper: React.FC<{ className?: string }> = ({ className = '' }) => 
 };
 
 /** Painted portrait placeholder: a woman with long dark hair, in gouache. */
-export const PaintedAvatar: React.FC<{ size?: number }> = ({ size = 120 }) => (
+const PaintedAvatarArt: React.FC<{ size?: number }> = ({ size = 120 }) => (
   <svg width={size} height={size} viewBox="0 0 120 120" aria-hidden focusable="false">
     <defs>
       <clipPath id="avatar-clip">
@@ -153,6 +153,28 @@ export const PaintedAvatar: React.FC<{ size?: number }> = ({ size = 120 }) => (
     <circle cx="60" cy="60" r="56" fill="none" stroke="#1F2430" strokeWidth="3" filter="url(#brushS)" />
   </svg>
 );
+
+/** Real photo in a hand-inked circle; falls back to the painted avatar if the file is missing. */
+export const PaintedAvatar: React.FC<{ size?: number }> = ({ size = 120 }) => {
+  const [failed, setFailed] = React.useState(false);
+  if (failed) return <PaintedAvatarArt size={size} />;
+  return (
+    <span
+      className="inline-block shrink-0 overflow-hidden rounded-full border-[3px] border-[#1F2430] bg-[#F9D9B4] align-middle"
+      style={{ width: size, height: size }}
+    >
+      <img
+        src={`${import.meta.env.BASE_URL}img/me.jpg`}
+        alt=""
+        width={size}
+        height={size}
+        onError={() => setFailed(true)}
+        className="h-full w-full object-cover"
+        style={{ objectPosition: '50% 38%', transform: 'scale(1.7)', transformOrigin: '52% 46%' }}
+      />
+    </span>
+  );
+};
 
 /** Start button: four dabs of paint. */
 export const PaintedStart: React.FC<{ size?: number }> = ({ size = 28 }) => (
