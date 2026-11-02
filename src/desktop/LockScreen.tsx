@@ -114,7 +114,7 @@ export const LockScreen: React.FC<{ onUnlock: () => void }> = ({ onUnlock }) => 
                   Professional side-hustle collector.
                 </motion.p>
                 <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.1, duration: 0.6 }} className="mt-1 max-w-sm px-4 text-center text-sm text-[#FFF6E6]/90">
-                  Think masala dabba: a pinch of everything, and somehow it all ends up in the dish.
+                  Too many tabs open, and I can explain every one.
                 </motion.p>
                 <div className="mt-5 flex gap-2" aria-hidden>
                   {[0, 1, 2, 3].map((i) => (

@@ -170,7 +170,7 @@ export const PaintedAvatar: React.FC<{ size?: number }> = ({ size = 120 }) => {
         height={size}
         onError={() => setFailed(true)}
         className="h-full w-full object-cover"
-        style={{ objectPosition: '50% 38%', transform: 'scale(1.7)', transformOrigin: '52% 46%' }}
+        style={{ objectPosition: '50% 90%', transform: 'scale(1.6)', transformOrigin: '50% 40%' }}
       />
     </span>
   );

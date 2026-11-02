@@ -50,6 +50,27 @@ const Toast: React.FC<{ show: boolean }> = ({ show }) => {
   );
 };
 
+const NowNotes: React.FC<{ className: string; note: string }> = ({ className, note }) => {
+  const { content } = useContent();
+  return (
+    <section aria-label="Now" className={className}>
+      {content.now.map((n, i) => (
+        <Link
+          key={n.id}
+          to={`/now/${n.id}`}
+          data-note
+          className={`block border border-[#1F2430]/40 p-3 text-[#1F2430] shadow-[3px_4px_0_rgba(31,36,48,0.25)] transition-transform hover:-translate-y-1 hover:rotate-0 ${note}`}
+          style={{ background: NOTE_COLORS[i % NOTE_COLORS.length], transform: `rotate(${TILTS[(i + 3) % TILTS.length]}deg)` }}
+        >
+          <p className="font-mono text-[10px] uppercase tracking-wide text-[#1F2430]/60">{n.kind === 'building' ? 'building' : n.kind === 'role' ? 'new role' : 'now'}</p>
+          <p className="font-hand text-2xl font-bold leading-[0.95]">{n.label}</p>
+          <p className="mt-1 text-xs leading-snug">{n.statusText}</p>
+        </Link>
+      ))}
+    </section>
+  );
+};
+
 export const Desktop: React.FC<{ unlocked: boolean; onLock: () => void }> = ({ unlocked, onLock }) => {
   const { content } = useContent();
   const nav = useNavigate();
@@ -90,39 +111,28 @@ export const Desktop: React.FC<{ unlocked: boolean; onLock: () => void }> = ({ u
         ))}
       </div>
 
-      {/* Greeting + positioning */}
-      <section data-greet aria-label="Introduction" className="tape absolute right-6 top-10 z-10 hidden w-[min(440px,34vw)] bg-[#FFF6E6]/90 p-5 text-[#1F2430] backdrop-blur-sm hand-box lg:block xl:right-16">
-        <p className="font-hand text-2xl text-[#E8552F]">hi, I'm ↓</p>
-        <h1 className="font-display text-7xl leading-[0.9] tracking-tight">{content.profile.name}</h1>
-        <BlurText text={content.profile.headline} animateBy="words" delay={90} className="mt-3 font-hand text-3xl font-bold leading-tight" />
-        <p className="mt-2 text-sm text-[#1F2430]/75">{content.profile.positioning}</p>
-        <LearningCurve row className="mt-3 rounded-lg border-2 border-dashed border-[#1F2430]/40 bg-[#FFFBF4]/70 p-2" />
-        <div className="mt-4 flex gap-2">
-          <Link to="/skim" className="rounded-lg border-2 border-[#1F2430] bg-[#E8552F] px-3 py-1.5 text-sm font-semibold text-white paper-shadow">
-            Skim in 10 seconds
-          </Link>
-          <Link to="/f/work-experience" className="rounded-lg border-2 border-[#1F2430] bg-[#FFFBF4] px-3 py-1.5 text-sm font-semibold paper-shadow">
-            Open experience
-          </Link>
-        </div>
-      </section>
+      {/* Right column: greeting card, then the "now" notes underneath so they never overlap */}
+      <div className="absolute bottom-[4.5rem] right-6 top-8 z-10 hidden w-[min(440px,36vw)] flex-col gap-5 lg:flex xl:right-16">
+        <section data-greet aria-label="Introduction" className="tape min-h-0 bg-[#FFF6E6]/90 p-5 text-[#1F2430] backdrop-blur-sm hand-box">
+          <p className="font-hand text-2xl text-[#E8552F]">hi, I'm ↓</p>
+          <h1 className="font-display text-6xl leading-[0.9] tracking-tight [@media(min-height:800px)]:text-7xl">{content.profile.name}</h1>
+          <BlurText text={content.profile.headline} animateBy="words" delay={90} className="mt-3 font-hand text-3xl font-bold leading-tight" />
+          <p className="mt-2 text-sm text-[#1F2430]/75">{content.profile.positioning}</p>
+          <LearningCurve row className="mt-3 hidden rounded-lg border-2 border-dashed border-[#1F2430]/40 bg-[#FFFBF4]/70 p-2 [@media(min-height:820px)]:flex" />
+          <div className="mt-4 flex gap-2">
+            <Link to="/skim" className="rounded-lg border-2 border-[#1F2430] bg-[#E8552F] px-3 py-1.5 text-sm font-semibold text-white paper-shadow">
+              Skim in 10 seconds
+            </Link>
+            <Link to="/f/work-experience" className="rounded-lg border-2 border-[#1F2430] bg-[#FFFBF4] px-3 py-1.5 text-sm font-semibold paper-shadow">
+              Open experience
+            </Link>
+          </div>
+        </section>
+        <NowNotes className="mt-auto grid grid-cols-3 gap-3" note="min-w-0" />
+      </div>
 
-      {/* Now: sticky notes (current roles and builds, always visible) */}
-      <section aria-label="Now" className="absolute bottom-20 right-6 z-10 hidden gap-4 md:flex xl:right-16">
-        {content.now.map((n, i) => (
-          <Link
-            key={n.id}
-            to={`/now/${n.id}`}
-            data-note
-            className="block w-44 border border-[#1F2430]/40 p-3 text-[#1F2430] shadow-[3px_4px_0_rgba(31,36,48,0.25)] transition-transform hover:-translate-y-1 hover:rotate-0"
-            style={{ background: NOTE_COLORS[i % NOTE_COLORS.length], transform: `rotate(${TILTS[(i + 3) % TILTS.length]}deg)` }}
-          >
-            <p className="font-mono text-[10px] uppercase tracking-wide text-[#1F2430]/60">{n.kind === 'building' ? 'building' : n.kind === 'role' ? 'new role' : 'now'}</p>
-            <p className="font-hand text-2xl font-bold leading-[0.95]">{n.label}</p>
-            <p className="mt-1 text-xs leading-snug">{n.statusText}</p>
-          </Link>
-        ))}
-      </section>
+      {/* Between md and lg there is no greeting card, so the notes sit bottom-right on their own */}
+      <NowNotes className="absolute bottom-20 right-6 z-10 hidden gap-4 md:flex lg:hidden" note="w-44" />
 
       <Toast show={unlocked} />
       <Taskbar onLock={onLock} />
