@@ -189,7 +189,9 @@ export const PaintedStart: React.FC<{ size?: number }> = ({ size = 28 }) => (
 const petals = (n: number, rot: number, cy: number, rx: number, ry: number, fill: string) =>
   Array.from({ length: n }, (_, i) => <ellipse key={`${fill}${i}`} cx="0" cy={cy} rx={rx} ry={ry} fill={fill} transform={`rotate(${rot + (i * 360) / n})`} />);
 
-const PatternArt: React.FC<{ variant: 'rangoli' | 'blockprint' | 'confetti' | 'marigold'; className?: string }> = ({ variant, className = '' }) => (
+const PatternArt: React.FC<{ variant: 'rangoli' | 'blockprint' | 'confetti' | 'marigold' | 'moonlit' | 'citrus' | 'sol'; className?: string }> = ({ variant, className = '' }) => {
+  const dark = variant === 'marigold' || variant === 'moonlit' || variant === 'sol' || variant === 'citrus';
+  return (
   <svg className={`absolute inset-0 h-full w-full ${className}`} aria-hidden focusable="false">
     <defs>
       {/* rangoli: mandala tiles in saffron, magenta, teal and indigo */}
@@ -311,20 +313,104 @@ const PatternArt: React.FC<{ variant: 'rangoli' | 'blockprint' | 'confetti' | 'm
           <circle key={`d${x}${y}`} cx={x} cy={y} r="3" fill="#FFE9C7" opacity="0.75" />
         ))}
       </pattern>
+
+      {/* moonlit: crescent moons, stars and mushrooms on midnight blue */}
+      <pattern id="pt-moonlit" width="260" height="260" patternUnits="userSpaceOnUse">
+        <rect width="260" height="260" fill="#0A0C26" />
+        <path d="M70 40 a42 42 0 1 0 38 62 a34 34 0 1 1 -38 -62 Z" fill="url(#mg-gold)" />
+        <g transform="translate(176 170)">
+          <path d="M-30 0 a30 24 0 0 1 60 0 Z" fill="#F2542D" />
+          <circle cx="-10" cy="-10" r="4" fill="#FFD25A" />
+          <circle cx="9" cy="-14" r="3" fill="#FFD25A" />
+          <rect x="-7" y="0" width="14" height="30" rx="6" fill="#7E8CF0" />
+        </g>
+        <g transform="translate(50 196) scale(0.7)">
+          <path d="M-30 0 a30 24 0 0 1 60 0 Z" fill="#FF8FA8" />
+          <rect x="-7" y="0" width="14" height="30" rx="6" fill="#7E8CF0" />
+        </g>
+        {([[150, 40], [220, 90], [24, 130], [120, 150], [236, 232], [100, 240]] as [number, number][]).map(([x, y]) => (
+          <path key={`s${x}${y}`} d={`M${x} ${y - 9} L${x + 2.5} ${y - 2.5} L${x + 9} ${y} L${x + 2.5} ${y + 2.5} L${x} ${y + 9} L${x - 2.5} ${y + 2.5} L${x - 9} ${y} L${x - 2.5} ${y - 2.5} Z`} fill="#FFE9C7" opacity="0.85" />
+        ))}
+        {[[190, 20], [20, 40], [90, 120], [200, 130], [60, 250]].map(([x, y]) => (
+          <circle key={`d${x}${y}`} cx={x} cy={y} r="2.2" fill="#7E8CF0" />
+        ))}
+      </pattern>
+
+      {/* citrus: orange slices, blossoms and sprigs on warm olive-yellow */}
+      <pattern id="pt-citrus" width="240" height="240" patternUnits="userSpaceOnUse">
+        <rect width="240" height="240" fill="#E3C71A" />
+        <g transform="translate(64 64)">
+          <circle r="38" fill="#F2542D" />
+          <circle r="31" fill="#FFB08A" />
+          {Array.from({ length: 8 }, (_, i) => (
+            <path key={i} d="M0 0 L0 -29" stroke="#F2542D" strokeWidth="3" transform={`rotate(${i * 45})`} />
+          ))}
+        </g>
+        <g transform="translate(172 172) scale(0.8)">
+          <circle r="38" fill="#FF9A1F" />
+          <circle r="31" fill="#FFD9A0" />
+          {Array.from({ length: 8 }, (_, i) => (
+            <path key={i} d="M0 0 L0 -29" stroke="#FF9A1F" strokeWidth="3" transform={`rotate(${i * 45})`} />
+          ))}
+        </g>
+        <g transform="translate(180 56)">
+          {petals(5, 0, -14, 9, 16, '#FFF6E6')}
+          <circle r="6" fill="#F2542D" />
+        </g>
+        <g transform="translate(56 182)">
+          {petals(5, 20, -14, 9, 16, '#FFF6E6')}
+          <circle r="6" fill="#F2542D" />
+        </g>
+        <g transform="translate(120 120) rotate(40)"><use href="#mg-leafshape" /></g>
+        <g transform="translate(14 120) rotate(-30) scale(0.6)"><use href="#mg-leafshape" /></g>
+        <g transform="translate(226 120) rotate(30) scale(0.6)"><use href="#mg-leafshape" /></g>
+        {[[120, 14], [120, 226], [20, 20], [220, 220]].map(([x, y]) => (
+          <circle key={`d${x}${y}`} cx={x} cy={y} r="4" fill="#0F3B2A" />
+        ))}
+      </pattern>
+
+      {/* sol: eyes and sunbursts on hot orange */}
+      <pattern id="pt-sol" width="220" height="220" patternUnits="userSpaceOnUse">
+        <rect width="220" height="220" fill="#FF6A00" />
+        <g transform="translate(60 64)">
+          {Array.from({ length: 14 }, (_, i) => (
+            <path key={i} d="M0 -30 L5 -46 L-5 -46 Z" fill="#1F2430" transform={`rotate(${i * (360 / 14)})`} />
+          ))}
+          <path d="M-34 0 Q0 -28 34 0 Q0 28 -34 0 Z" fill="#FFF6E6" stroke="#1F2430" strokeWidth="3" />
+          <circle r="11" fill="#14A3A8" />
+          <circle r="5" fill="#1F2430" />
+        </g>
+        <g transform="translate(168 168) scale(0.8)">
+          {Array.from({ length: 14 }, (_, i) => (
+            <path key={i} d="M0 -30 L5 -46 L-5 -46 Z" fill="#FFD25A" transform={`rotate(${i * (360 / 14)})`} />
+          ))}
+          <path d="M-34 0 Q0 -28 34 0 Q0 28 -34 0 Z" fill="#FFF6E6" stroke="#1F2430" strokeWidth="3" />
+          <circle r="11" fill="#E8306B" />
+          <circle r="5" fill="#1F2430" />
+        </g>
+        <path d="M130 40 q12 -18 24 0 t24 0 t24 0" stroke="#1F2430" strokeWidth="6" fill="none" strokeLinecap="round" />
+        <path d="M10 170 q12 -18 24 0 t24 0" stroke="#FFD25A" strokeWidth="6" fill="none" strokeLinecap="round" />
+        <g transform="translate(176 112)">{petals(5, 0, -11, 8, 13, '#E8306B')}<circle r="5" fill="#FFD25A" /></g>
+        <g transform="translate(56 140)">{petals(5, 30, -11, 8, 13, '#C4DB2F')}<circle r="5" fill="#1F2430" /></g>
+        {[[110, 100], [20, 20], [200, 20], [110, 200]].map(([x, y]) => (
+          <circle key={`d${x}${y}`} cx={x} cy={y} r="5" fill="#1F2430" />
+        ))}
+      </pattern>
     </defs>
     <g filter="url(#brushM)">
       <rect x="-40" y="-40" width="6000" height="4000" fill={`url(#pt-${variant})`} />
     </g>
-    {variant === 'marigold' ? (
+    {dark ? (
       <rect width="100%" height="100%" fill="#07201A" opacity="0.35" />
     ) : (
       <rect width="100%" height="100%" fill="#FFF6E6" opacity="0.62" />
     )}
-    <rect width="100%" height="100%" filter="url(#grain)" opacity={variant === 'marigold' ? 0.55 : 0.35} style={{ mixBlendMode: variant === 'marigold' ? 'overlay' : 'multiply' }} />
+    <rect width="100%" height="100%" filter="url(#grain)" opacity={dark ? 0.55 : 0.35} style={{ mixBlendMode: dark ? 'overlay' : 'multiply' }} />
   </svg>
-);
+  );
+};
 
-export type WallpaperId = 'dawn' | 'marigold' | 'rangoli' | 'blockprint' | 'confetti';
+export type WallpaperId = 'dawn' | 'marigold' | 'moonlit' | 'citrus' | 'sol' | 'rangoli' | 'blockprint' | 'confetti';
 
 export const PaintedWallpaper: React.FC<{ variant?: WallpaperId; className?: string }> = ({ variant = 'dawn', className }) =>
   variant === 'dawn' ? <DawnWallpaper className={className} /> : <PatternArt variant={variant} className={className} />;
