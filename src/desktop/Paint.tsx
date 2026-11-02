@@ -189,7 +189,7 @@ export const PaintedStart: React.FC<{ size?: number }> = ({ size = 28 }) => (
 const petals = (n: number, rot: number, cy: number, rx: number, ry: number, fill: string) =>
   Array.from({ length: n }, (_, i) => <ellipse key={`${fill}${i}`} cx="0" cy={cy} rx={rx} ry={ry} fill={fill} transform={`rotate(${rot + (i * 360) / n})`} />);
 
-const PatternArt: React.FC<{ variant: 'rangoli' | 'blockprint' | 'confetti' | 'marigold'; className?: string }> = ({ variant, className = '' }) => (
+const PatternArt: React.FC<{ variant: 'rangoli' | 'blockprint' | 'confetti'; className?: string }> = ({ variant, className = '' }) => (
   <svg className={`absolute inset-0 h-full w-full ${className}`} aria-hidden focusable="false">
     <defs>
       {/* rangoli: mandala tiles in saffron, magenta, teal and indigo */}
@@ -263,68 +263,16 @@ const PatternArt: React.FC<{ variant: 'rangoli' | 'blockprint' | 'confetti' | 'm
         <path d="M232 30 l18 18 M250 30 l-18 18" stroke="#FFD23F" strokeWidth="6" strokeLinecap="round" />
         <rect x="64" y="86" width="20" height="20" rx="4" fill="#FFFFFF" transform="rotate(20 74 96)" />
       </pattern>
-
-      {/* marigold: folk-art flowers and leaves on deep forest green, with grainy gradients */}
-      <radialGradient id="mg-gold" cx="50%" cy="50%" r="55%">
-        <stop offset="0" stopColor="#FFC83D" />
-        <stop offset="0.65" stopColor="#FF9A1F" />
-        <stop offset="1" stopColor="#F2542D" />
-      </radialGradient>
-      <radialGradient id="mg-pink" cx="50%" cy="50%" r="60%">
-        <stop offset="0" stopColor="#FF8FA8" />
-        <stop offset="1" stopColor="#E8306B" />
-      </radialGradient>
-      <linearGradient id="mg-leaf" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stopColor="#2E7D4F" />
-        <stop offset="1" stopColor="#0F3B2A" />
-      </linearGradient>
-      <g id="mg-leafshape">
-        <path d="M0 -46 C26 -26 26 20 0 46 C-26 20 -26 -26 0 -46 Z" fill="url(#mg-leaf)" />
-        <path d="M0 -38 V40" stroke="#6FBF8A" strokeWidth="1.6" opacity="0.55" />
-      </g>
-      <pattern id="pt-marigold" width="240" height="240" patternUnits="userSpaceOnUse">
-        <rect width="240" height="240" fill="#0B2A20" />
-        <g transform="translate(58 56) rotate(-28)"><use href="#mg-leafshape" /></g>
-        <g transform="translate(180 176) rotate(152)"><use href="#mg-leafshape" /></g>
-        <g transform="translate(176 44) rotate(34) scale(0.7)"><use href="#mg-leafshape" /></g>
-        <g transform="translate(62 190) rotate(-146) scale(0.7)"><use href="#mg-leafshape" /></g>
-        <g transform="translate(120 120)">
-          {petals(12, 0, -22, 13, 20, 'url(#mg-gold)')}
-          {petals(12, 15, -12, 8, 12, '#FFD25A')}
-          <circle r="9" fill="#E8552F" />
-        </g>
-        {([[16, 12], [224, 12], [16, 228], [224, 228]] as [number, number][]).map(([x, y]) => (
-          <g key={`m${x}${y}`} transform={`translate(${x} ${y})`}>
-            {petals(8, 0, -9, 6, 10, 'url(#mg-gold)')}
-            <circle r="4" fill="#E8552F" />
-          </g>
-        ))}
-        <g transform="translate(176 110)">
-          {petals(5, 0, -13, 9, 15, 'url(#mg-pink)')}
-          <circle r="5" fill="#FFD25A" />
-        </g>
-        <g transform="translate(64 120)">
-          {petals(5, 36, -13, 9, 15, 'url(#mg-pink)')}
-          <circle r="5" fill="#FFD25A" />
-        </g>
-        {[[100, 24], [150, 214], [30, 90], [212, 150], [120, 40], [124, 204]].map(([x, y]) => (
-          <circle key={`d${x}${y}`} cx={x} cy={y} r="3" fill="#FFE9C7" opacity="0.75" />
-        ))}
-      </pattern>
     </defs>
     <g filter="url(#brushM)">
       <rect x="-40" y="-40" width="6000" height="4000" fill={`url(#pt-${variant})`} />
     </g>
-    {variant === 'marigold' ? (
-      <rect width="100%" height="100%" fill="#07201A" opacity="0.35" />
-    ) : (
-      <rect width="100%" height="100%" fill="#FFF6E6" opacity="0.62" />
-    )}
-    <rect width="100%" height="100%" filter="url(#grain)" opacity={variant === 'marigold' ? 0.55 : 0.35} style={{ mixBlendMode: variant === 'marigold' ? 'overlay' : 'multiply' }} />
+    <rect width="100%" height="100%" fill="#FFF6E6" opacity="0.62" />
+    <rect width="100%" height="100%" filter="url(#grain)" opacity="0.35" style={{ mixBlendMode: 'multiply' }} />
   </svg>
 );
 
-export type WallpaperId = 'dawn' | 'marigold' | 'rangoli' | 'blockprint' | 'confetti';
+export type WallpaperId = 'dawn' | 'rangoli' | 'blockprint' | 'confetti';
 
 export const PaintedWallpaper: React.FC<{ variant?: WallpaperId; className?: string }> = ({ variant = 'dawn', className }) =>
   variant === 'dawn' ? <DawnWallpaper className={className} /> : <PatternArt variant={variant} className={className} />;
