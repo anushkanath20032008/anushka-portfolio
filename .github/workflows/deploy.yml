@@ -23,7 +23,7 @@ jobs:
       - run: npm test
       - run: npm run build
         env:
-          VITE_BASE: /${{ github.event.repository.name }}/
+          VITE_BASE: /
           # Public, read-only values (row level security blocks writes).
           VITE_SUPABASE_URL: https://nqwyfsakyumnbxgyqzvq.supabase.co
           VITE_SUPABASE_ANON_KEY: sb_publishable_3KINeqyMCIj0uGp6WmRABA_3E5G-9gZ
