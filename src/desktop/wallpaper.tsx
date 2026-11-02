@@ -3,9 +3,6 @@ import { PaintedWallpaper, type WallpaperId } from './Paint';
 
 export const WALLPAPERS: { id: WallpaperId; label: string; swatch: string }[] = [
   { id: 'marigold', label: 'Marigold', swatch: 'radial-gradient(circle at 50% 50%, #FF9A1F 0 28%, #0B2A20 30%)' },
-  { id: 'moonlit', label: 'Moonlit', swatch: 'linear-gradient(135deg, #0A0C26 50%, #FF9A1F 50%)' },
-  { id: 'citrus', label: 'Citrus', swatch: 'linear-gradient(135deg, #E3C71A 50%, #F2542D 50%)' },
-  { id: 'sol', label: 'Sol', swatch: 'linear-gradient(135deg, #FF6A00 50%, #1F2430 50%)' },
   { id: 'rangoli', label: 'Rangoli', swatch: 'conic-gradient(#E4256B, #F9A11B, #1B8A8F, #6A2C91, #E4256B)' },
   { id: 'blockprint', label: 'Block print', swatch: 'linear-gradient(135deg, #1F3B73 50%, #F26B4F 50%)' },
   { id: 'confetti', label: 'Confetti', swatch: 'linear-gradient(135deg, #FFD0DD 50%, #14B8A6 50%)' },
