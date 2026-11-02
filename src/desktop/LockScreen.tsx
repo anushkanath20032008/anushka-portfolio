@@ -164,11 +164,6 @@ export const LockScreen: React.FC<{ onUnlock: () => void }> = ({ onUnlock }) => 
           <p className="mt-2 font-hand text-4xl font-semibold text-[#1F2430]">{date}</p>
         </div></div>
 
-        <div className="absolute bottom-7 left-7 z-10 hidden max-w-xs text-left md:block rounded-xl bg-[#1F2430]/65 px-3 py-2 text-[#FFF6E6]">
-          <p className="font-hand text-4xl font-bold leading-none">{content.profile.name}</p>
-          <p className="mt-1 text-sm">{content.profile.positioning}</p>
-        </div>
-
         <div className="absolute inset-x-0 bottom-7 z-10 flex flex-col items-center px-4 text-center text-[#FFF6E6]"><div className="flex flex-col items-center rounded-2xl bg-[#1F2430]/60 px-4 py-1.5">
           <motion.span animate={{ y: [0, -6, 0] }} transition={{ duration: 1.8, repeat: Infinity }} aria-hidden>
             <ChevronUp size={24} />
