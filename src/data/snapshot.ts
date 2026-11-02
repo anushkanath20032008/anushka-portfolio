@@ -6,7 +6,7 @@ export const SNAPSHOT: Content = {
   profile: {
     name: 'Anushka Nath',
     headline: 'Serial blue-sky thinker, trying my hand at building.',
-    positioning: 'Learning a bit of everything and trusting the dots will connect. You only ever see them looking backwards.',
+    positioning: 'Learning a bit of everything and trusting the dots will connect. They only ever make sense looking backwards.',
     summary:
       'Owned a ₹3 Cr audit & advisory portfolio across 65+ engagements, then started building: live apps, an AI app for dance studios, and a leadership role in the AI & Analytics Club. Drawn to structuring fast-scaling B2B businesses and leading 0-to-1 initiatives in tech.',
     email: 'nath.anushka26@gmail.com',
